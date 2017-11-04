@@ -193,8 +193,8 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
         current.height = Math.max(getHeight(current.right), getHeight(current.left)) + 1;
 	}
 
-	/* Update the height attribute of all TreeNodes in the subtree
-	rooted at the TreeNode containing the given data
+	/* Update the height attribute of all TreeNodes 
+	on the path to the data
 	*/
     public void updateHeight(T data) {
 		if (root != null) {
