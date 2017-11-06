@@ -81,7 +81,7 @@ public class AVLTreeSet<T extends Comparable<T>> extends BSTSet<T>{
     If the method is called on 
 	  b
 	 / \
-    c  a
+        c  a
 	  / \
 	 d   e
 	then the tri-node is b,a,d so the result is
@@ -90,7 +90,7 @@ public class AVLTreeSet<T extends Comparable<T>> extends BSTSet<T>{
 	  b   e
 	 / \
 	c   d       
-	and the method returns, a, the new root 
+	and the method makes sure the parent of b now is the parent of a
 	*/
     private void rotateLeft(TreeNode<T> b) {
 		// PART 4
@@ -110,10 +110,10 @@ public class AVLTreeSet<T extends Comparable<T>> extends BSTSet<T>{
 	then the tri-node is a,b,c, so the result is
 	  b
 	 / \
-    c  a
+        c  a
 	  / \
 	 d   e
-	and the method returns, b, the new root 
+	and the method makes sure the parent of a now is the parent of b
 	*/
     private void rotateRight(TreeNode<T> a) {
 		// PART 4
