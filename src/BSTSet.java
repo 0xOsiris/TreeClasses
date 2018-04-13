@@ -79,7 +79,7 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
     }
     
 	@Override
-    public BSTSet<T> subSet(T fromKey, T toKey) {
+    public NavigableSet<T> subSet(T fromKey, T toKey) {
 		// PART 2
 		return null;
     }

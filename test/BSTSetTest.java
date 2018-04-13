@@ -204,7 +204,7 @@ public class BSTSetTest {
 			
 			// insert into our Set and take subset
 			BSTSet<T> t = BSTSet.bulkInsert(input);
-			BSTSet<T> subt = t.subSet(fromKey, toKey);
+			NavigableSet<T> subt = t.subSet(fromKey, toKey);
 			
 			// our Set should contain and not contain all the same elements
 			// as the Java Set
