@@ -1,5 +1,6 @@
 
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.Objects;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,7 +33,7 @@ public class BSTSetTest {
 		@Test
 		public void testContainsC() {
 				// PART 1
-				BSTSet<Integer> t = new BSTSet<>();
+				BSTSet<String> t = new BSTSet<>();
 				assertFalse(true);
 		}
 		// Feel free to write more contains tests!
@@ -44,7 +45,7 @@ public class BSTSetTest {
 			n.add(30);
 			n.add(20);
 			n.add(50);
-			n.deleteMin(n.root.right, n.root);
+			n.deleteMin(n.root.right);
 			Integer[] ex = {30, 20};
 			assertEquals(BSTSet.bulkInsert(ex).root, n.root);
 		}
@@ -56,7 +57,7 @@ public class BSTSetTest {
 			n.add(20);
 			n.add(50);
 			n.add(49);
-			n.deleteMin(n.root.right, n.root);
+			n.deleteMin(n.root.right);
 			Integer[] ex = {30, 20, 50};
 			assertEquals(BSTSet.bulkInsert(ex).root, n.root);
 		}
@@ -69,7 +70,7 @@ public class BSTSetTest {
 			n.add(50);
 			n.add(49);
 			n.add(51);
-			n.deleteMin(n.root.right, n.root);
+			n.deleteMin(n.root.right);
 			Integer[] ex = {30, 20, 50, 51};
 			assertEquals(n.root, BSTSet.bulkInsert(ex).root);
 		}
@@ -84,7 +85,7 @@ public class BSTSetTest {
 			n.add(60);
 			n.add(35);
 			n.add(45);
-			n.deleteMin(n.root.right, n.root);
+			n.deleteMin(n.root.right);
 			Integer[] ex = {30, 20, 50, 40, 60, 45};
 			assertEquals(n.root, BSTSet.bulkInsert(ex).root);
 		}
@@ -195,64 +196,49 @@ public class BSTSetTest {
 			assertEquals(n.root, BSTSet.bulkInsert(ex).root);
 		}
 
-		@Test
-		public void testKeyRange() {
-			Integer[] ex = {100,50,150,25,75,125,175,60,79};
-			BSTSet<Integer> t = BSTSet.bulkInsert(ex);
-			Iterator<Integer> iter = t.keysInRange(54, 127);
+		private <T extends Comparable<T>> void subsetHelper(T[] input, T fromKey, T toKey){
+			// use a Java SortedSet to check ours
+			java.util.SortedSet<T> exp = new java.util.TreeSet();
+			exp.addAll(Arrays.asList(input));
+			java.util.SortedSet expSubset = exp.subSet(fromKey, toKey);
 			
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)60, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)75, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)79, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)100, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)125, iter.next());
+			// insert into our Set and take subset
+			BSTSet<T> t = BSTSet.bulkInsert(input);
+			BSTSet<T> subt = t.subSet(fromKey, toKey);
+			
+			// our Set should contain and not contain all the same elements
+			// as the Java Set
+			for (int i=0; i<input.length; i++){
+				assertEquals(expSubset.contains(input[i]), subt.contains(input[i]));	
+			}
+		}
+
+		@Test
+		public void testSubSet() {
+			Integer[] input = {100,50,150,25,75,125,175,60,79};
+			subsetHelper(input, 54, 127);
 		}
 		
 		@Test
-		public void testKeyRange2() {
-			Integer[] ex = {100,50,150,25,75,125,175,60,79};
-			BSTSet<Integer> t = BSTSet.bulkInsert(ex);
-			Iterator<Integer> iter = t.keysInRange(50, 100);
-			
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)50, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)60, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)75, iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals((Integer)79, iter.next());
+		public void testSubSet2() {
+			Integer[] input = {100,50,150,25,75,125,175,60,79};
+			subsetHelper(input, 50, 100);
 		}
 		
 		@Test
-		public void testKeyRange3() {
-			String[] ex = {"kangaroo","bass","leopard","albatross","goat","lemur","mouse","cat","gorilla"};
-			BSTSet<String> t = BSTSet.bulkInsert(ex);
-			Iterator<String> iter = t.keysInRange("kangaroo", "penguin");
-			
-			assertTrue(iter.hasNext());
-			assertEquals("kangaroo", iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals("lemur", iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals("leopard", iter.next());
-			assertTrue(iter.hasNext());
-			assertEquals("mouse", iter.next());
+		public void testSubSet3() {
+			String[] input = {"kangaroo","bass","leopard","albatross","goat","lemur","mouse","cat","gorilla"};
+			subsetHelper(input, "kangaroo", "penguin");
 		}
 		
 		@Test
-		public void testKeyRange4() {
+		public void testSubSet4() {
 			// PART 2
 			assertFalse(true);
 		}
 		
 		@Test
-		public void testKeyRangeOutOfBounds() {
+		public void testSubSetOutOfBounds() {
 			// PART 2
 			assertFalse(true);
 		}

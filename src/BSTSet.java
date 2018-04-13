@@ -79,19 +79,22 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
     }
     
 	@Override
-    public Iterator<T> keysInRange(T start, T end) {
+    public BSTSet<T> subSet(T fromKey, T toKey) {
 		// PART 2
 		return null;
     }
 
 	/* remove the minimum TreeNode from the tree
-	rooted at top. Return the removed TreeNode
+	rooted at n. Return the removed TreeNode. Make sure that
+	the parent of n is updated if n is the node removed.
 	*/
-    protected TreeNode<T> deleteMin(TreeNode<T> top, TreeNode<T> parentOfTop) {
+    protected TreeNode<T> deleteMin(TreeNode<T> n) {
+		TreeNode<T> parentOfN = null; // you'll need this variable
+
 		// do not remove these two lines. They are intended to help you debug by
 		// checking pre-conditions on deleteMin
-		if (parentOfTop == null) throw new IllegalArgumentException("deleteMin should not be called on a null parent");
-		if (parentOfTop.isLeaf()) throw new IllegalArgumentException("deleteMin should not be called with a parent that is a leaf");
+		if (parentOfN == null) throw new IllegalArgumentException("deleteMin should not be called on a null parent");
+		if (parentOfN.isLeaf()) throw new IllegalArgumentException("deleteMin should not be called with a parent that is a leaf");
 
 		// PART 3
 		return null;
@@ -100,6 +103,7 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
 	@Override
     public boolean remove(T e) {
 		// PART 3
+		return false;
     }
 
 	/* Takes the existing child of the parent to replace with the new child	
