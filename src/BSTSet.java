@@ -5,10 +5,10 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
 
     // the root of the tree
     protected TreeNode<T> root;
-
+    public List<T> t = new LinkedList<T>();
     // number of TreeNodes in the tree
     public int size;
-
+    
     public BSTSet() {
         root = null;
 
@@ -74,14 +74,57 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
 
     @Override
     public boolean contains(T e) {
-		// PART 1
+	if(root==null){
+            return false;
+        }
+        
+        TreeNode<T> current = root;
+        
+        while(current!=null){
+            if(current.data.compareTo(e)==0){
+                return true;
+            }else if(current.data.compareTo(e)>0){
+                current=current.left;
+            }else{
+                current=current.right;
+            }
+        }
         return false;
     }
     
-	@Override
+    @Override
     public NavigableSet<T> subSet(T fromKey, T toKey) {
-		// PART 2
-		return null;
+		List<T> subSetList =genList(this.root, fromKey, toKey);
+                BSTSet<T> subset = new BSTSet<>();
+                
+                while(subSetList.size()>0){
+                    subset.add(subSetList.remove(0));
+                }
+                return subset;
+                            
+    }
+    
+    private List<T> genList(TreeNode<T> node, T fromKey, T toKey){
+        
+        if(node.data.compareTo(toKey)>=0){
+            if(node.left!=null){
+                genList(node.left, fromKey, toKey);
+            }
+        }else if(node.data.compareTo(fromKey)<0){
+            if(node.right!=null){                          
+                genList(node.right, fromKey, toKey);
+            }
+        }else{
+            t.add(node.data);
+            if(node.left!=null){
+                genList(node.left, fromKey, toKey);
+            }
+            if(node.right!=null){
+                genList(node.right, fromKey, toKey);
+            }
+        }
+        return t;
+        
     }
 
 	/* remove the minimum TreeNode from the tree
@@ -89,21 +132,69 @@ public class BSTSet<T extends Comparable<T>> implements NavigableSet<T> {
 	the parent of n is updated if n is the node removed.
 	*/
     protected TreeNode<T> deleteMin(TreeNode<T> n) {
-		TreeNode<T> parentOfN = null; // you'll need this variable
+		TreeNode<T> parentOfN = getParent(n);// you'll need this variable
 
 		// do not remove these two lines. They are intended to help you debug by
 		// checking pre-conditions on deleteMin
+                
 		if (parentOfN == null) throw new IllegalArgumentException("deleteMin should not be called on a null parent");
 		if (parentOfN.isLeaf()) throw new IllegalArgumentException("deleteMin should not be called with a parent that is a leaf");
-
-		// PART 3
-		return null;
+                TreeNode<T> current = n;
+		if(n.left!=null){
+                    while(n.left!=null){
+                        current=n;
+                        n=n.left;
+                    }
+                    current.left=null;
+                }else{
+                    parentOfN.right=null;
+                }
+                
+                
+                return n;
     }
     
-	@Override
+    @Override
     public boolean remove(T e) {
-		// PART 3
-		return false;
+        
+        if(!this.contains(e)){
+            return false;
+        }
+        
+
+        TreeNode<T> current = this.root;
+
+        while(current.data.compareTo(e)!=0){
+            if(current.data.compareTo(e)>0){
+                current=current.left;
+            }else if(current.data.compareTo(e)<0){
+                current= current.right;
+            }
+        }
+
+        if(current.left == null && current.right == null){
+            updateParent(current,null);
+        }else if(current.left==null){
+            updateParent(current, current.right);
+        }else if(current.right==null){
+            updateParent(current, current.left);
+        }else{
+            if(current.right.isLeaf()){
+                current.right.left=current.left;
+                updateParent(current,current.right);
+                
+            }else{
+                TreeNode<T> left=current.left;
+                TreeNode<T> right=current.right;
+                TreeNode<T> x=deleteMin(current.right);
+                updateParent(current, x); 
+                x.left=left;
+                x.right=right;
+                
+            }
+        }
+        
+        return true;
     }
 
 	/* Takes the existing child of the parent to replace with the new child	

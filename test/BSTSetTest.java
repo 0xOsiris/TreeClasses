@@ -22,19 +22,46 @@ public class BSTSetTest {
 		public void testContainsA() {
 				// PART 1
 				BSTSet<Integer> t = new BSTSet<>();
-				assertFalse(true);
+                                t.add(1);
+				t.add(2);
+				t.add(3);
+                                t.add(4);
+				t.add(4);
+				t.add(5);
+				assertTrue(t.contains(1));
+                                assertTrue(t.contains(2));
+                                assertTrue(t.contains(3));
+                                assertTrue(t.contains(4));
+                                assertTrue(t.contains(5));
+                                assertTrue(t.contains(5));
+                                assertFalse(t.contains(0));
 		}
 		@Test
 		public void testContainsB() {
-				// PART 1
+				
 				BSTSet<Integer> t = new BSTSet<>();
-				assertFalse(true);
+                                t.add(25);
+				t.add(36);
+				t.add(24);
+                                t.add(45);
+				t.add(26);
+				t.add(54);
+				assertFalse(t.contains(81));
+                                assertTrue(t.contains(36));
+                                assertTrue(t.contains(24));
+                                assertTrue(t.contains(54));
 		}
 		@Test
 		public void testContainsC() {
 				// PART 1
 				BSTSet<String> t = new BSTSet<>();
-				assertFalse(true);
+				                               
+				t.add("Hello");
+				t.add("Goodbye");
+				t.add("Good day");
+				assertTrue(t.contains("Hello"));
+                                assertFalse(t.contains("Halo"));
+				
 		}
 		// Feel free to write more contains tests!
 
@@ -201,6 +228,7 @@ public class BSTSetTest {
 			java.util.SortedSet<T> exp = new java.util.TreeSet();
 			exp.addAll(Arrays.asList(input));
 			java.util.SortedSet expSubset = exp.subSet(fromKey, toKey);
+                        
 			
 			// insert into our Set and take subset
 			BSTSet<T> t = BSTSet.bulkInsert(input);
@@ -208,8 +236,10 @@ public class BSTSetTest {
 			
 			// our Set should contain and not contain all the same elements
 			// as the Java Set
+                        
 			for (int i=0; i<input.length; i++){
-				assertEquals(expSubset.contains(input[i]), subt.contains(input[i]));	
+                            
+                            assertEquals(expSubset.contains(input[i]), subt.contains(input[i]));	
 			}
 		}
 
@@ -233,14 +263,14 @@ public class BSTSetTest {
 		
 		@Test
 		public void testSubSet4() {
-			// PART 2
-			assertFalse(true);
+			Integer[] input = {28,22,48,11,25,32,5};
+			subsetHelper(input, 20, 50);
 		}
 		
 		@Test
 		public void testSubSetOutOfBounds() {
-			// PART 2
-			assertFalse(true);
+			Integer[] input = {28,22,48,11,25,32,5};
+			subsetHelper(input, 50, 51);
 		}
 
 		@Test 
