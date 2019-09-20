@@ -102,8 +102,8 @@ public class AVLTreeSet<T extends Comparable<T>> extends BSTSet<T>{
             getParent(b).right=oldRight;
         }
         oldRight.left= b;
-        //this.updateHeight(b.left.data);
-        this.updateHeightWholeTree();
+        this.updateHeight(b.data);
+        //this.updateHeightWholeTree();
         
     }
     
@@ -140,8 +140,8 @@ public class AVLTreeSet<T extends Comparable<T>> extends BSTSet<T>{
                 getParent(a).right=oldLeft;
             }
             oldLeft.right=a;
-            //this.updateHeight(a.right.data);
-            this.updateHeightWholeTree();
+            this.updateHeight(a.data);
+            //this.updateHeightWholeTree();
     }
     
 
